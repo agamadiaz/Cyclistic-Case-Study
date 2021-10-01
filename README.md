@@ -713,6 +713,7 @@ all_trips_v2 %>%
        x = "Weekday", y = "Number of riders (10k)", fill = "Member Type")
 ## `summarise()` has grouped output by 'member_casual'. You can override using the `.groups` argument.
 
+![image](https://user-images.githubusercontent.com/91291459/135568200-1ab24b3c-6fb8-4c9e-94de-b194f743b5f1.png)
 
 After some trial and error I was able to make the necessary changes to provide a clean visual. I am grouping by ‘member_casual’ or member type and weekday, using a formula of ‘number_of_rides’ (divided by ten thousand in order to fit the data better into the visual) and using the mean of ‘ride_length’ as ‘average_duration’. Next, it is arranged by member type and weekday. The actual type of visual and its elements are next, setting the X and Y axis using the ‘weekday’, and ‘number_of_rides’ data. The fill or what the column will show is the member type. A column/bar chart was chosen due to the data that was being compared, one type versus one type. Lastly, I labeled the visual to be able to read it at a glance.
 
