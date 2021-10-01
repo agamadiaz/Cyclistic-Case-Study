@@ -731,7 +731,8 @@ all_trips_v2 %>%
        y = "Average duration in minutes", fill = "Member Type")
 ## `summarise()` has grouped output by 'member_casual'. You can override using the `.groups` argument.
 
-
+![image](https://user-images.githubusercontent.com/91291459/135568314-e88e6f40-71a6-4734-ad2e-e129a0164ddb.png)
+  
 Almost identical set up to the first visual. The key changes are using ‘average_duration’ as the Y axis, changing the labels, and dividing the ‘ride_length’ mean by 60 as the duration was in seconds thus dividing by 60 yields minutes.
 
 Conclusions
