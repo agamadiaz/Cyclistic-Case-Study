@@ -1,8 +1,9 @@
 # Cyclistic-Case-Study
-Google Data Analytics Certificate Final Case Study
-Cyclistic Case Study Report
+Google Data Analytics Certificate Final Case Study\
+Cyclistic Case Study Report\
 Angel Gama-Diaz
-Introduction
+
+### Introduction
 As part of Coursera’s ‘Google Data Analytics Certificate’ program, completing a Case Study was the final portion of the program. This Case Study was used to highlight what I learned from the program and showcase my evolution in Data Analysis.
 
 Case Study Background
@@ -14,7 +15,7 @@ Cyclistic’s finance analysts have concluded that annual members are much more 
 
 Moreno has set a clear goal: Design marketing strategies aimed at converting casual riders into annual members. In order to do that, however, the marketing analyst team needs to better understand how annual members and casual riders differ, why casual riders would buy a membership, and how digital media could affect their marketing tactics. Moreno and her team are interested in analyzing the Cyclistic historical bike trip data to identify trends.
 
-Setting The Scene
+Setting The Scene\
 You are a junior data analyst working in the marketing analyst team at Cyclistic, a bike-share company in Chicago. The director of marketing believes the company’s future success depends on maximizing the number of annual memberships. Therefore, your team wants to understand how casual riders and annual members use Cyclistic bikes differently. From these insights, your team will design a new marketing strategy to convert casual riders into annual members. But first, Cyclistic executives must approve your recommendations, so they must be backed up with compelling data insights and professional data visualizations
 
 Three questions will guide the future marketing program: 1. How do annual members and casual riders use Cyclistic bikes differently? 2. Why would casual riders buy Cyclistic annual memberships? 3. How can Cyclistic use digital media to influence casual riders to become members?
@@ -30,9 +31,10 @@ I will be using one year of data using the Q2_2019, Q3_2019, Q4_2019, and Q1_202
 
 An assessment of the integrity of the data reveals two items of note. 1) Due to data-privacy issues, riders’ personally identifiable information is hidden. 2) This means I won’t be able to connect pass purchases to credit card numbers to determine if casual riders are visiting the service area or if they have purchased multiple single passes.
 
-Data Analysis Phase
+### Data Analysis Phase
 To begin I will load previously installed packages that will help with cleaning and consolidating data, change and read date attributes, and visualize the data.
 
+```
 library(tidyverse)
 ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
 ## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
@@ -49,8 +51,11 @@ library(lubridate)
 ## 
 ##     date, intersect, setdiff, union
 library(ggplot2)
+```
+
 Next I will load in the four data sets that I will be using
 
+```
 q2_2019 <- read_csv("Divvy_Trips_2019_Q2")
 ## Rows: 1108163 Columns: 12
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -91,8 +96,11 @@ q1_2020 <- read_csv("Divvy_Trips_2020_Q1.csv")
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
 Now that the data has been loaded into the Script/Console I will do a quick glimpse of the data to see what I am working with.
 
+```
 colnames(q2_2019)
 ##  [1] "01 - Rental Details Rental ID"                   
 ##  [2] "01 - Rental Details Local Start Time"            
@@ -122,8 +130,11 @@ colnames(q1_2020)
 ##  [7] "end_station_name"   "end_station_id"     "start_lat"         
 ## [10] "start_lng"          "end_lat"            "end_lng"           
 ## [13] "member_casual"
+```
+
 Right away I notice there are an uneven amount of columns and that there are different column names for the same type of data. I will rename columns to match one another using the newest data set as a guide in order to combine the data sets and eliminate unused columns.
 
+```
 (q2_2019 <- rename(q2_2019,
                   ride_id="01 - Rental Details Rental ID",
                   rideable_type = "01 - Rental Details Bike ID",
@@ -204,8 +215,11 @@ Right away I notice there are an uneven amount of columns and that there are dif
 ## # … with 704,044 more rows, and 7 more variables: start_station_id <dbl>,
 ## #   start_station_name <chr>, end_station_id <dbl>, end_station_name <chr>,
 ## #   member_casual <chr>, gender <chr>, birthyear <dbl>
+```
+
 Now that the columns have been renamed I will check them all for further inconsistencies.
 
+```
 str(q2_2019)
 ## spec_tbl_df [1,108,163 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id                                         : num [1:1108163] 22178529 22178530 22178531 22178532 22178533 ...
@@ -236,6 +250,7 @@ str(q2_2019)
 ##   ..   `05 - Member Details Member Birthday Year` = col_double()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+
 str(q3_2019)
 ## spec_tbl_df [1,640,718 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id           : num [1:1640718] 23479388 23479389 23479390 23479391 23479392 ...
@@ -266,6 +281,7 @@ str(q3_2019)
 ##   ..   birthyear = col_double()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+
 str(q4_2019)
 ## spec_tbl_df [704,054 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id           : num [1:704054] 25223640 25223641 25223642 25223643 25223644 ...
@@ -296,6 +312,7 @@ str(q4_2019)
 ##   ..   birthyear = col_double()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+
 str(q1_2020)
 ## spec_tbl_df [426,887 × 13] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id           : chr [1:426887] "EACB19130B0CDA4A" "8FED874C809DC021" "789F3C21E472CA96" "C9A388DAC6ABF313" ...
@@ -328,16 +345,22 @@ str(q1_2020)
 ##   ..   member_casual = col_character()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+```
+
 Checking this time I notice that columns ‘ride_id’ and ‘rideable_type’ need to be changed to character in order to stack. To do this I run the following:
 
+```
 q2_2019 <- mutate(q2_2019, ride_id = as.character(ride_id),
                   rideable_type = as.character(rideable_type))
 q3_2019 <- mutate(q3_2019, ride_id = as.character(ride_id),
                   rideable_type = as.character(rideable_type))
 q4_2019 <- mutate(q4_2019, ride_id = as.character(ride_id),
                   rideable_type = as.character(rideable_type))
+```
+
 Now I check the column names again to make sure the data matches and will be able to merge into one data set.
 
+```
 colnames(q2_2019)
 ##  [1] "ride_id"                                         
 ##  [2] "started_at"                                      
@@ -351,24 +374,30 @@ colnames(q2_2019)
 ## [10] "member_casual"                                   
 ## [11] "Member Gender"                                   
 ## [12] "05 - Member Details Member Birthday Year"
+
 colnames(q3_2019)
 ##  [1] "ride_id"            "started_at"         "ended_at"          
 ##  [4] "rideable_type"      "tripduration"       "start_station_id"  
 ##  [7] "start_station_name" "end_station_id"     "end_station_name"  
 ## [10] "member_casual"      "gender"             "birthyear"
+
 colnames(q4_2019)
 ##  [1] "ride_id"            "started_at"         "ended_at"          
 ##  [4] "rideable_type"      "tripduration"       "start_station_id"  
 ##  [7] "start_station_name" "end_station_id"     "end_station_name"  
 ## [10] "member_casual"      "gender"             "birthyear"
+
 colnames(q1_2020)
 ##  [1] "ride_id"            "rideable_type"      "started_at"        
 ##  [4] "ended_at"           "start_station_name" "start_station_id"  
 ##  [7] "end_station_name"   "end_station_id"     "start_lat"         
 ## [10] "start_lng"          "end_lat"            "end_lng"           
 ## [13] "member_casual"
+```
+
 Now, I notice ‘end_station_id’ and "start_station_id’ need to go through the same cleanup.
 
+```
 q2_2019 <- mutate(q2_2019, end_station_id = as.character(end_station_id),
                   start_station_id = as.character(start_station_id))
 q3_2019 <- mutate(q3_2019, end_station_id = as.character(end_station_id),
@@ -377,8 +406,11 @@ q4_2019 <- mutate(q4_2019, end_station_id = as.character(end_station_id),
                   start_station_id = as.character(start_station_id))
 q1_2020 <- mutate(q1_2020, end_station_id = as.character(end_station_id),
                   start_station_id = as.character(start_station_id))
+```
+
 One more check to see if everything is lining up as I want it to.
 
+```
 str(q2_2019)
 ## spec_tbl_df [1,108,163 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id                                         : chr [1:1108163] "22178529" "22178530" "22178531" "22178532" ...
@@ -409,6 +441,7 @@ str(q2_2019)
 ##   ..   `05 - Member Details Member Birthday Year` = col_double()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+
 str(q3_2019)
 ## spec_tbl_df [1,640,718 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id           : chr [1:1640718] "23479388" "23479389" "23479390" "23479391" ...
@@ -439,6 +472,7 @@ str(q3_2019)
 ##   ..   birthyear = col_double()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+
 str(q4_2019)
 ## spec_tbl_df [704,054 × 12] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id           : chr [1:704054] "25223640" "25223641" "25223642" "25223643" ...
@@ -469,6 +503,7 @@ str(q4_2019)
 ##   ..   birthyear = col_double()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+
 str(q1_2020)
 ## spec_tbl_df [426,887 × 13] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ ride_id           : chr [1:426887] "EACB19130B0CDA4A" "8FED874C809DC021" "789F3C21E472CA96" "C9A388DAC6ABF313" ...
@@ -501,8 +536,11 @@ str(q1_2020)
 ##   ..   member_casual = col_character()
 ##   .. )
 ##  - attr(*, "problems")=<externalptr>
+```
+
 Seeing that indeed the columns will stack and therefore the data will be consolidated; it is time to merge the four data sets into one.
 
+```
 all_trips <- bind_rows(q2_2019,q3_2019,q4_2019,q1_2020)
 Excellent, the four data sets are now combined into one set named ‘all_trips’ It is now time to remove the unused columns.
 
@@ -511,8 +549,11 @@ all_trips <- all_trips %>%
             "01 - Rental Details Duration In Seconds Uncapped",
             "05 - Member Details Member Birthday Year",
             "Member Gender", "tripduration"))
+```
+
 Four columns of data were removed. Now I will check the remaining columns, generate a table of the new data set, and generate a summary in order to learn more about the data.
 
+```
 colnames(all_trips)
 ## [1] "ride_id"            "started_at"         "ended_at"          
 ## [4] "rideable_type"      "start_station_id"   "start_station_name"
@@ -540,10 +581,13 @@ summary(all_trips)
 ##                                       
 ##                                       
 ## 
+```
+
 I am down to nine columns of data, and looking through the table that was generated, spot some changes that need to be implemented.
 
 The first change is to combined the four different names used for riders into two usable names. I will check the data before and after to make sure the merger worked.
 
+```
 table(all_trips$member_casual)
 ## 
 ##     casual   Customer     member Subscriber 
@@ -556,17 +600,23 @@ table(all_trips$member_casual)
 ## 
 ##  casual  member 
 ##  905954 2973868
+```
+
 Now that I verified that the changes worked, it is time for the next change. I aim to split up the Dates into a more usable format by having separate columns for Month, Day, and Year of each ride.
 
+```
 all_trips$date <- as.Date(all_trips$started_at)
 all_trips$month <- format(as.Date(all_trips$date), "%m")
 all_trips$day <- format(as.Date(all_trips$date),"%d")
 all_trips$year <- format(as.Date(all_trips$date), "%Y")
 all_trips$day_of_week <- format(as.Date(all_trips$date), "%A")
+```
+
 Now I can use the different columns to combine or analyze the data if needed.
 
 Next I will make a ride length calculation and read it.
 
+```
 all_trips$ride_length <-difftime(all_trips$ended_at,all_trips$started_at)
 
 str(all_trips)
@@ -587,27 +637,39 @@ str(all_trips)
 ##  $ day_of_week       : chr [1:3879822] "Monday" "Monday" "Monday" "Monday" ...
 ##  $ ride_length       : 'difftime' num [1:3879822] 446 1048 252 357 ...
 ##   ..- attr(*, "units")= chr "secs"
+```
+
 I can see that the new ‘ride_length’ is in Factor format and needs to be in Numeric format to be able to run calculations on the data.
 
+```
 is.factor(all_trips$ride_length)
 ## [1] FALSE
 all_trips$ride_length <- as.numeric(as.character(all_trips$ride_length))
 is.numeric(all_trips$ride_length)
 ## [1] TRUE
+```
+
 At this point I generate a table again in order to play around with the data and see what else needs to be cleaned, changed, or added.
 
+```
 View(all_trips)
+```
+
 Everything is looking much better and now it is time to clean the “bad” data. There are negative ride_length entries as well as entries that appear to be taken to be serviced. A new data set will be created due to removing a portion of the data.
 
+```
 all_trips_v2 <- all_trips[!(all_trips$ride_length<0),]
 
 summary(all_trips_v2$ride_length)
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##       0     411     711    1478    1288 9387024
+```
+
 The summary of the new data set ‘all_trips_2’ shows me the min, median, mean, and max points of data.
 
 At this point it is time to start comparing data to draw conclusions.
 
+```
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = mean)
 ##   all_trips_v2$member_casual all_trips_v2$ride_length
 ## 1                     casual                3538.4516
@@ -624,10 +686,13 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = min)
 ##   all_trips_v2$member_casual all_trips_v2$ride_length
 ## 1                     casual                        0
 ## 2                     member                        1
+```
+
 Looking at the aggregate data of ‘ride_length’ I can start to see that there is a large difference between the average ride length of causal users vs members.
 
 Now I will check the average ride time per day of the week for both types of members.
 
+```
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual +
           all_trips_v2$day_of_week, FUN = mean)
 ##    all_trips_v2$member_casual all_trips_v2$day_of_week all_trips_v2$ride_length
@@ -645,8 +710,11 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual +
 ## 12                     member                  Tuesday                 826.1427
 ## 13                     casual                Wednesday                3691.0203
 ## 14                     member                Wednesday                 823.9980
+```
+
 Noticing that the dates are out of order, I run the following to adjust this:
 
+```
 all_trips_v2$day_of_week <- ordered(all_trips_v2$day_of_week, levels=c(
   "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"))
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual +
@@ -666,8 +734,11 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual +
 ## 12                     member                   Friday                 824.5305
 ## 13                     casual                 Saturday                3331.9138
 ## 14                     member                 Saturday                 968.9337
+```
+
 To get a good look at ridership data by type and weekday I run this:
 
+```
 all_trips_v2 %>%
   mutate(weekday = wday(started_at, label = TRUE)) %>%
   group_by(member_casual, weekday) %>%
@@ -692,16 +763,19 @@ all_trips_v2 %>%
 ## 12 member        Thu              484177             824.
 ## 13 member        Fri              452790             825.
 ## 14 member        Sat              287958             969.
+```
+
 This results in a tibble (data frame) showing member amount of rides and duration per weekday.
 
 At this point it is time to revisit the original Business Task and see if there is progress towards the question that needs to be answered.
 
-How do annual members and casual riders use Cyclistic bikes differently?
+- How do annual members and casual riders use Cyclistic bikes differently?
 
 To answer this question I will run two data visualizations that can shed some key differences in riders.
 
 The first viz will be ‘Number of riders per weekday’
 
+```
 all_trips_v2 %>%
   mutate(weekday=wday(started_at, label = TRUE)) %>%
   group_by(member_casual, weekday) %>%
@@ -712,13 +786,16 @@ all_trips_v2 %>%
   labs(title = "Number of riders per weekday", 
        x = "Weekday", y = "Number of riders (10k)", fill = "Member Type")
 ## `summarise()` has grouped output by 'member_casual'. You can override using the `.groups` argument.
+```
 
 ![image](https://user-images.githubusercontent.com/91291459/135568200-1ab24b3c-6fb8-4c9e-94de-b194f743b5f1.png)
+
 
 After some trial and error I was able to make the necessary changes to provide a clean visual. I am grouping by ‘member_casual’ or member type and weekday, using a formula of ‘number_of_rides’ (divided by ten thousand in order to fit the data better into the visual) and using the mean of ‘ride_length’ as ‘average_duration’. Next, it is arranged by member type and weekday. The actual type of visual and its elements are next, setting the X and Y axis using the ‘weekday’, and ‘number_of_rides’ data. The fill or what the column will show is the member type. A column/bar chart was chosen due to the data that was being compared, one type versus one type. Lastly, I labeled the visual to be able to read it at a glance.
 
 The second visual will be ‘Average duration of ride per weekday’
 
+```
 all_trips_v2 %>%
   mutate(weekday = wday(started_at, label = TRUE)) %>%
   group_by(member_casual, weekday) %>%
@@ -730,12 +807,13 @@ all_trips_v2 %>%
   labs(title = "Average duration of ride per weekday", x = "Weekday",
        y = "Average duration in minutes", fill = "Member Type")
 ## `summarise()` has grouped output by 'member_casual'. You can override using the `.groups` argument.
+```
 
 ![image](https://user-images.githubusercontent.com/91291459/135568314-e88e6f40-71a6-4734-ad2e-e129a0164ddb.png)
   
 Almost identical set up to the first visual. The key changes are using ‘average_duration’ as the Y axis, changing the labels, and dividing the ‘ride_length’ mean by 60 as the duration was in seconds thus dividing by 60 yields minutes.
 
-Conclusions
+### Conclusions
 The purpose of this Case Study was to showcase my ability to follow the data analysis process as detailed in Courseras ‘Google Data Analytics Certificate’ program.
 
 The ASK portion was the question that I intended to answer: How do annual members and casual riders use Cyclistic bikes differently?
